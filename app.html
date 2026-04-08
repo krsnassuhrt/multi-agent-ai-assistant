@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Multi-Agent AI Assistant</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #e2e8f0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #38bdf8;
+        }
+
+        .card {
+            background: #1e293b;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: none;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 14px;
+            width: 100%;
+            border: none;
+            border-radius: 10px;
+            background: #38bdf8;
+            color: #0f172a;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0ea5e9;
+        }
+
+        .output {
+            margin-top: 25px;
+            padding: 20px;
+            background: #020617;
+            border-radius: 12px;
+            display: none;
+        }
+
+        .section {
+            margin-bottom: 15px;
+        }
+
+        .label {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #64748b;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🤖 Multi-Agent AI Assistant</h1>
+
+    <div class="card">
+        <div class="label">Ask anything (tasks, schedule, notes):</div>
+
+        <input id="queryInput" placeholder="e.g. schedule meeting and add task prepare slides">
+
+        <button onclick="sendQuery()">🚀 Run AI</button>
+
+        <div class="output" id="output">
+            <div class="section">
+                <div class="label">Response:</div>
+                <pre id="result"></pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        Built with Multi-Agent AI + AlloyDB + Gemini 🚀
+    </div>
+</div>
+
+<script>
+    async function sendQuery() {
+        const query = document.getElementById("queryInput").value;
+
+        if (!query) {
+            alert("Enter a query");
+            return;
+        }
+
+        const output = document.getElementById("output");
+        const result = document.getElementById("result");
+
+        output.style.display = "block";
+        result.innerText = "Thinking... 🤖";
+
+        try {
+            const response = await fetch(
+                `/query?user_input=${encodeURIComponent(query)}`
+            );
+
+            const data = await response.json();
+
+            if (data.status === "error") {
+                result.innerText = data.message;
+                return;
+            }
+
+            // Pretty format
+            result.innerText = JSON.stringify(data.response, null, 2);
+
+        } catch (error) {
+            result.innerText = "Error: " + error;
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+fastapi
+uvicorn
+python-dotenv
+
+# HTTP requests (for Gemini API)
+requests
+
+# Google Auth (for Vertex AI IAM access)
+google-auth
+google-auth-httplib2
+google-auth-oauthlib
+
+# Database (PostgreSQL / AlloyDB)
+psycopg2-binary
+
+# Optional (cleaner data handling)
+pydantic
